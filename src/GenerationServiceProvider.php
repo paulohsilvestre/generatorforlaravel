@@ -1,6 +1,6 @@
 <?php
 
-namespace GeneratorForLaravel\Generation;
+namespace Paulohsilvestre\GeneratorForLaravel\Generation;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,7 +24,7 @@ class GenerationServiceProvider extends ServiceProvider
     public function register()
     {
         include __DIR__.'/routes/web.php';
-        $this->app->make('GeneratorForLaravel\Generation\GenerationController');
+        $this->app->make('Paulohsilvestre\GeneratorForLaravel\Generation\GenerationController');
         $this->loadViewsFrom(__DIR__.'/views', 'generation');
     }
 }

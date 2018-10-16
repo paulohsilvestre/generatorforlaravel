@@ -1,11 +1,11 @@
 <?php
 
-namespace GeneratorForLaravel\Generation;
+namespace Paulohsilvestre\GeneratorForLaravel\Generation;
  
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use GeneratorForLaravel\Generation\Migration;
+use Paulohsilvestre\GeneratorForLaravel\Generation\Migration;
  
 class GenerationController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace GeneratorForLaravel\Generation;
+namespace Paulohsilvestre\GeneratorForLaravel\Generation;
 
 use Illuminate\Support\Facades\Auth;
 
