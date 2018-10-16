@@ -1,11 +1,11 @@
 {
-    "name": "generatorforlaravel/generation",
+    "name": "paulohsilvestre/generatorforlaravel",
     "description": "Module response for converting an exported MySql Workbench diagram into routes, classes, Controllers, Services, Validators, migrations to be used within a Laravel project",
     "license": "MIT",
     "authors": [
         {
             "name": "Paulo Henrique Silvestre",
-            "email": "paulohislvestre@gmail.com",
+            "email": "paulohsilvestre@gmail.com",
             "homepage": "http://www.lptsolutions.com.br",
             "role": "Developer"
         }
