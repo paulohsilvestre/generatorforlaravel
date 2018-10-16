@@ -5,7 +5,7 @@ namespace Paulohsilvestre\GeneratorForLaravel\Controllers;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Paulohsilvestre\GeneratorForLaravel\Generation\Migration;
+use Paulohsilvestre\GeneratorForLaravel\Utils\Migration as Migration;
  
 class GenerationController extends Controller
 {
