@@ -1,7 +1,7 @@
 {
     "name": "generatorforlaravel/generation",
     "description": "Module response for converting an exported MySql Workbench diagram into routes, classes, Controllers, Services, Validators, migrations to be used within a Laravel project",
-    "license": "GPLv3",
+    "license": "MIT",
     "version": "1.0",
     "minimum-stability": "dev",
     "authors": [
