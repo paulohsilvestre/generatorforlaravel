@@ -1,8 +1,8 @@
 <?php
 
-namespace Paulohsilvestre\GeneratorForLaravel\Generation;
+namespace Paulohsilvestre\GeneratorForLaravel\Utils;
 
-use Paulohsilvestre\GeneratorForLaravel\Generation\Functions;
+use Paulohsilvestre\GeneratorForLaravel\Utils\Functions;
 
 class Migration {
 

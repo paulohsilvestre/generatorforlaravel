@@ -1,6 +1,6 @@
 <?php
 
-namespace Paulohsilvestre\GeneratorForLaravel\Generation;
+namespace Paulohsilvestre\GeneratorForLaravel\Controllers;
  
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;

@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Paulohsilvestre\\Generatorforlaravel\\Generation\\": "src/"
+            "Paulohsilvestre\\GeneratorForLaravel\\": "src/"
         }
     },
     "extra": {

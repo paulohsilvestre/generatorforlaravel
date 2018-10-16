@@ -1,6 +1,6 @@
 <?php
 
 
-Route::get('generation', 'Paulohsilvestre\GeneratorForLaravel\Generation\GenerationController@index');
-Route::post('upload', 'Paulohsilvestre\GeneratorForLaravel\Generation\GenerationController@upload');
-Route::post('generation', 'Paulohsilvestre\GeneratorForLaravel\Generation\GenerationController@generation');
+Route::get('generation', 'Paulohsilvestre\GeneratorForLaravel\Controllers\GenerationController@index');
+Route::post('upload', 'Paulohsilvestre\GeneratorForLaravel\Controllers\GenerationController@upload');
+Route::post('generation', 'Paulohsilvestre\GeneratorForLaravel\Controllers\GenerationController@generation');
