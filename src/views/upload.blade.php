@@ -14,7 +14,7 @@
                     <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
                     <div class="options">
                         @if($exist == true)
-                            <h3 class="text-danger">FILE process.sql exists, if proccess continue file update</h3>
+                            <h3 class="text-danger">Já existe arquivo gravado, se enviar novo será sobrescrito</h3>
                         @endif
                     </div>
                 </div>
@@ -28,41 +28,108 @@
                 <fieldset>
                     <div data-row-span="1">
                         <div data-field-span="1">
-                            Attention the Archive will be saved in the storage / der / process.sql directory, and will always be rewritten to every upload.
+                            O arquivo será salvo em  storage/der/process.sql.
+                            Crie todo seu relacionamento, tipos, campos no MySqlWorkbench como um DER e exporte como "SQL Create Script" o resto o GeneratorForLaravel cria para você
+                            a estrutura básica de arquivo necessário para o laravel conseguir gerar relatórios, incluir, alterar, remover, migration,
+                            o Sistema não remove nem altera os dados em formulários apenas adiciona os novos e gera os migrate.
+                            Tabelas que contenham "S" no final Ex: Alunos será criado o objeto "Aluno"
                         </div>
                     </div>    
                 </fieldset>
                 <fieldset>
                     <div data-row-span="3">
                         <div data-field-span="1">
-                            <label>Namespace</label>                     
-                            <input type="text" required name="namespace" id="namespace" placeholder="Namespace for Application Ex: App or MySyst" />
+                            <label>Namespace Principal</label>                     
+                            <input type="text" required name="namespace" id="namespace" placeholder="Namespace da Aplicação Ex: MeuSistema" value="App" />
                         </div>
                         <div data-field-span="1">
-                            <label>Directory Model</label>                     
-                            <input type="text" required name="directory" id="directory" placeholder="Directory for save Models Ex: Model or Entities">
+                            <label>Modelos em app/</label>                     
+                            <input type="text" required name="directory" id="directory" placeholder="Salvar modelo no Diretório Ex: Entities" value="Entities">
                         </div>  
                         <div data-field-span="1">
-                            <label>File for routes</label>                     
-                            <input type="text" required name="fileroutes" id="fileroutes" placeholder="File for routes Ex: import or web or routes">
+                            <label>Nome Arquivo Rotas em routes/</label>                     
+                            <input type="text" required name="fileroutes" id="fileroutes" placeholder="Nome do Arquivo de Rotas Ex: generated" value="web.php">
                         </div> 
                         
+                    </div>            
+                </fieldset> 
+                <fieldset>
+                    <div data-row-span="2">
+                        <div data-field-span="1">
+                            <label>Criar nome dos model como nome das tabelas</label>                     
+                            <input type="checkbox" name="namemodel" id="namemodel" value="Y" />
+                        </div>
+                        <div data-field-span="1">
+                            <label>Formulário Edição/Inclusão único</label>                     
+                            <input type="checkbox" name="form" id="form" value="Y" />
+                        </div>
+                    </div>            
+                </fieldset> 
+                <fieldset>
+                    <div data-row-span="1">
+                        <div data-field-span="1">
+                            <label>Criar Route usando Resource</label>                     
+                            <input type="checkbox" name="resource" id="resource" value="Y" />
+                            Se marcado a rota ficará Route::resource() senão será criado get/put/delete/post
+
+                        </div>   
                     </div>            
                 </fieldset> 
                     <fieldset>
                         <div data-row-span="3">
                             <div data-field-span="1">
-                                <label>Create Controller</label> 
-                                <input type="checkbox" name="controller" id="controller" value="Y"> &nbsp;Create in app/Http/Controllers/automatic
+                                <label>Criar Controllers em app/Http/Controllers/</label> 
+                                <input type="text" readonly="false" name="controller" id="controller" value="app/Http/Controllers/" placeholder="Caminho para salvar Controllers" />
                             </div>
                             <div data-field-span="1">
-                                <label>Create Validators</label> 
-                                <input type="checkbox" name="validators" id="validators" value="Y"> &nbsp;Create in app/validators
+                                <label>Salvar Validators em app/Validators</label> 
+                                <input type="text" readonly="false" name="validators" id="validators" value="app/Validators/" placeholder="Caminho para salvar Validators" />
                             </div>
                             <div data-field-span="1">
-                                <label>Use Services</label> 
-                                <input type="checkbox" name="services" id="services" value="Y"> &nbsp;Create in app/services
+                                <label>Criar Services em app/Services</label> 
+                                <input type="text" readonly="false" name="services" id="services" value="app/Services/" placeholder="local para Criação dos Services" />
                             </div>       
+                    </fieldset> 
+                    <fieldset>
+                        <div data-row-span="2">
+                            <div data-field-span="1">
+                                <label>Tabela de Usuários</label> 
+                                <input type="text" name="users" id="users" value="User" />
+                            </div>
+                            <div data-field-span="1">
+                                <label>Criar Arquivo para Tradução</label> 
+                                <input type="checkbox" name="translate" id="translate" value="Y"> &nbsp;Criar arquivo de Tradução em config/translate.php
+                            </div>       
+                    </fieldset> 
+                    <fieldset>
+                        <div data-row-span="3">
+                            <div data-field-span="1">
+                                <label>Conexão Padrão</label> 
+                                <input type="text" name="connection" id="connection" value="mysql" placeholder="Nome da Conexão padrão" />
+                            </div>
+                            <div data-field-span="1">
+                                <label>Incluir Conexão nos Models/Migrations</label> 
+                                <input type="checkbox" name="addcon" id="addcon" value="Y"> &nbsp;SIM
+                            </div>
+                            <div data-field-span="1">
+                                <label>Definir protected para Datas no modelo</label> 
+                                <input type="checkbox" name="adddate" id="adddate" value="Y"> &nbsp;destaca campos na váriavel date no modelo
+                            </div>  
+                    </fieldset> 
+                    <fieldset>
+                        <div data-row-span="3">
+                            <div data-field-span="1">
+                                <label>Host Conexão, alterado no .env</label> 
+                                <input type="text" name="dbhost" id="dbhost" value="127.0.0.1" placeholder="Host de Conexão" />
+                            </div>
+                            <div data-field-span="1">
+                                <label>Usuário Banco, alterado no .env</label> 
+                                <input type="text" name="dbuser" id="dbuser" value="root" placeholder="Usuário Banco" />
+                            </div>
+                            <div data-field-span="1">
+                                <label>Senha Banco, alterado no .env</label> 
+                                <input type="text" name="dbsenha" id="dbsenha" value="" placeholder="Senha do Banco" />
+                            </div>
                     </fieldset> 
                     <fieldset>
                         <div data-row-span="1">

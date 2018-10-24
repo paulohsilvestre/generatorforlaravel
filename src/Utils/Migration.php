@@ -8,7 +8,6 @@ class Migration {
 
     public static function getSchema($file){
 
-
         $content = "";
         unset($database);
         $class = array();
@@ -119,16 +118,12 @@ class Migration {
                                 }
 
                                 if (stripos(trim($list), "COMMENT")){
-
                                     $pos_com = strpos($list, "COMMENT")+9;
                                     $pos_vir = strpos($list, "',");
-                                    //dd(substr($list,$pos_com, ($pos_vir-$pos_com)));
-                                    $field->comment = substr($list,$pos_com, ($pos_vir-$pos_com));
-                                }
-
-                                $field->report = 'N';
-                                if (stripos(trim($list), "REPORT")){
-                                    $field->report = "Y";
+                                    $_comment = substr($list,$pos_com, ($pos_vir-$pos_com));
+                                    $field->attributes = self::getFieldTypeComment($_comment);
+                                } else {
+                                    $field->attributes = self::getFieldTypeComment("");
                                 }
 
                                 if ($field->enum == "Y"){
@@ -137,7 +132,6 @@ class Migration {
                                     $valores = Functions::getValuesCaracter($list, "(", ")");
                                     $tm = $valores;
                                 } else {
-                                    //get type field for definition
                                     $nlist = substr(trim($list), $space);
                                     $spacetype = stripos(trim($nlist), " ");
                                     $field->type = substr(trim($nlist), 0, $spacetype);
@@ -152,6 +146,11 @@ class Migration {
                                 }
 
                                 $field->width = $tm;
+                                if (@$field->attributes){
+                                    if (@$field->attributes->max == ""){
+                                        $field->attributes->max = $tm;
+                                    }
+                                }
 
                                 $fields[] = $field;
                                 $objClass->table["fields"] = $fields;
@@ -186,7 +185,7 @@ class Migration {
         if ($obj){
 
             $index = "N";
-            if (sizeof($indices)>0){
+            if (@sizeof($indices)>0){
                 foreach($indices as $value){
                     if ($obj->name == $value){
                         $index = "S";
@@ -267,16 +266,6 @@ class Migration {
 
         }
 
-        //         $table->enum('choices', ['foo', 'bar']);	ENUM
-        //         $table->json('options');	JSON
-        //         $table->jsonb('options');	JSONB
-        //         $table->morphs('taggable');	INTEGER
-        //         $table->nullableTimestamps(); timestamps()
-        //         $table->rememberToken(); remember_token.
-        //         $table->tinyInteger('numbers');	TINYINT
-        //         $table->timestamps();
-        //         $table->uuid('id');	UUID
-
     }
 
 
@@ -338,5 +327,27 @@ class Migration {
 
     }
 
+
+    public static function getFieldTypeComment($comment){
+        $type = new \stdClass();
+        $rep = Functions::getValuesCaracter($comment, "<report>", "</report>");
+        $type->report = ($rep != "N") ? "Y" : "N";
+        if ($comment){
+            $type->min = Functions::getValuesCaracter($comment, "<min>", "</min>");
+            $type->comment = Functions::getValuesCaracter($comment, "<comment>", "</comment>");
+            $type->type = Functions::getValuesCaracter($comment, "<type>", "</type>");
+            $type->example = Functions::getValuesCaracter($comment, "<example>", "</example>");
+            $type->translate = Functions::getValuesCaracter($comment, "<translate>", "</translate>");
+            $type->options = Functions::getValuesCaracter($comment, "<options>", "</options>");
+            $type->value = Functions::getValuesCaracter($comment, "<value>", "</value>");
+            $type->class = Functions::getValuesCaracter($comment, "<class>", "</class>");
+            $type->placeholder = Functions::getValuesCaracter($comment, "<placeholder>", "</placeholder>");
+            $type->title = Functions::getValuesCaracter($comment, "<title>", "</title>");
+            $type->max = Functions::getValuesCaracter($comment, "<max>", "</max>");
+            $type->cols = Functions::getValuesCaracter($comment, "<cols>", "</cols>");
+            $type->rows = Functions::getValuesCaracter($comment, "<rows>", "</rows>");
+        }
+        return $type;
+    }
 
 }

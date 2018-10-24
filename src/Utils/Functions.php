@@ -123,11 +123,14 @@ class Functions {
         if ($string){
             if ($charI && $charE){
                 $ini = stripos($string, $charI);
-                $strSplit = substr($string, $ini+1, strlen($string));
+                $tm_ini1 = strlen($charI);
+                $_pos = ($ini+($tm_ini1));
+                $strSplit = substr($string, $_pos, strlen($string));
                 $end = stripos($strSplit,$charE);
                 //$str = substr($string, ($ini+1), ($ini+$end));
                 $strReturn = "";
-                for ($i=$ini+1;$i<=($ini+$end);$i++){
+                $_tm_max = $_pos+($end-1);
+                for ($i=$_pos;$i<=$_tm_max;$i++){
                     $strReturn .= $string[$i];
                 }
                 return $strReturn;
@@ -142,17 +145,16 @@ class Functions {
      * @param unknown $name
      * @return string
      */
-    public static function getNameClass($name){
-        if ($name){
-            
+    public static function getNameClass($name, $fullname = "N"){
+        if (($name) && ($fullname == "N")){
             $tm = strlen($name);
             if (strtoupper($name[($tm-1)]) == "S"){
                 $name = substr($name,0,($tm-1));
             }
             return strtoupper(substr($name,0,1))."".strtolower(substr($name,1,$tm));
-            
         } else {
-            return $name;
+            $tm = strlen($name);
+            return strtoupper(substr($name,0,1))."".strtolower(substr($name,1,$tm));
         }
     }
     
