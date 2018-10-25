@@ -224,6 +224,9 @@ class Functions {
     {
         $retorno = "";
         $chave = env("APP_ENC");
+        if ($chave == ""){
+            $chave = "87589347593857395";
+        }
         
         if ($frase == ''){
             return '';
@@ -251,16 +254,13 @@ class Functions {
             do {
                 $retorno .= ($string{$i} ^ $chave{$i % $j});
             } while ($i --);
-    
             $retorno = strrev($retorno);
         }
         return $retorno;
     }
     
     public static function getPermission($form, $op){
-        
         $user = Auth::user();
-
         return true;
     }
     
@@ -394,29 +394,107 @@ class Functions {
         return true;
         }
     
-    /**
-     * RETORNA OS TIPO DE MASCARAS DISPONIVEIS PARA OS CAMPOS
-     * @param String $type
-     * @return String;
-     */
-    public static function getMask($type){
+    public static function getField($field, $table, $vl_recovery = ""){
         
-//         $mascara = $type;
-//         if($type){
-//             if ($type == "VARCHAR"){
-//                 $mascara = "text";
-//             } else if ($type == "cnpj"){
-//                 $mascara = "cnpj";
-//             } else if ($type == "data"){
-//                 $mascara = "data";
-//             } else if ($type == "cpf"){
-//                 $mascara = "cnpj";
-//             } else if ($type == "moeda"){
-//                 $mascara = "cnpj";
-//             }
-            
-//         }
-//         return $mascara;
+        $type = strtolower(@$field->attributes->type);
+        @$class = @$field->attributes->class;
+
+        $required = ($field->null != "N") ? " required " : "";
+
+        if ($type == "input"){
+
+            $fld_type = self::getTypeField($field);
+
+            $place = (@$field->attributes->placeholder != "") ? @$field->attributes->placeholder : "\Config::get(\"translate.".$table.".".$field->name."\")";
+
+            $str  = "<input name='".$field->name."'  
+                           id='".$field->name."'  
+                           type='".$fld_type."'
+                           class='".$class." form-control-plaintext' 
+                           maxlength='".$field->attributes->max."'
+                           minlength='".@$field->attributes->min."' 
+                           placeholder='".$place."' 
+                           ".$required;
+                           if ($vl_recovery){
+                                $str .= " value='".$vl_recovery."' ";
+                           }
+                    $str .= "/>";
+                    return $str;
+
+        } else if ($type == "checkbox") {
+            return "<input name='".$field->name."'  
+                id='".$field->name."'  
+                type='checkbox'
+                class='".$class." form-control-plaintext' 
+                value='".$field->attributes->value."' 
+                ".$required." 
+                />";
+        } else if ($type == "radio") {
+            return "<input name='".$field->name."'  
+                id='".$field->name."'  
+                type='radio'
+                class='".$class." form-control-plaintext' 
+                value='".$field->attributes->value."' 
+                ".$required." 
+                />";
+        } else if ($type == "select") {
+            $str = "<select name='".$field->name."' id='".$field->name."' ".$required." 
+            class='".$class." form-control-plaintext'>";
+            $exp = explode(",",$field->attributes->options);
+            if (@sizeof($exp) > 0){
+                foreach($exp as $vl){
+                    $_exp = explode("|",$vl);
+                    if (sizeof($_exp) > 1){
+                        $str .= "<option value='".$_exp[0]."'>".$_exp[1]."</option>";
+                    }
+                    unset($vl);
+                }
+            }
+            $str .= "</select>";
+            return $str;
+        } else if ($type == "textarea") {
+            $str = "<textarea name='".$field->name."' id='".$field->name."' ".$required." 
+            class='".$class." form-control-plaintext' cols='".@$field->attributes->cols."' rows='".$field->attributes->rows."'
+            placeholder='".(@$field->attributes->placeholder != "") ? @$field->attributes->placeholder : "Config::get(\"translate.".$table.".".$field->name."\")" ."' 
+            >";
+            $str .= "</textarea>";
+        } else {
+
+            $fld_type = self::getTypeField($field);
+
+            $str = "<input name='".$field->name."' ";
+            $str .= " type='".$fld_type."'";
+            $str .= " id='".$field->name."'";
+            $str .= " class='".$class." form-control-plaintext'";
+            $str .= " placeholder='{{Config::get(\"translate.".$table.".".$field->name."\")}}' ";
+            $str .= $required;
+            if ($vl_recovery){
+                $str .= " value='".$vl_recovery."' ";
+            }
+            $str .= " />";
+
+            return $str;    
+        }
+    }
+
+    public static function getTypeField($obj){
+        
+        if ($obj->type == "TEXT"){
+            $ret = "text";
+        } else if ($obj->type == "BIGINT"){
+            $ret = "number";
+        } else if ($obj->type == "VARCHAR"){
+            $ret = "text";
+        } else if ($obj->type == "DATE"){
+            $ret = "date";
+        } else if ($obj->type == "DATETIME"){
+            $ret = "date";
+        } else if ($obj->type == "DECIMAL"){
+            $ret = "number";
+        } else {
+            $ret = "text";
+        }
+        return $ret;
     }
     
     
