@@ -104,7 +104,9 @@ http://SEUSERVIDOR/generation
 Essa URL é a URL de inicio do processo e futuro reprocessamento, por exemplo hoje você processou seu DER, e amanhã precisa adicionar um novo campo, faz no DER e exporta ele novamente, nessa url você deve enviar novamente para que o sistema consiga gerar os dados necessários, quando um novo campo é criado o mesmo é adicionado um migration para update da tabela.
 
 ```
-ATENÇÃO, POR SEGURANÇA SE O SISTEMA ENCONTRA UM ARQUIVO EXISTENTE ELE NÃO SOBRESCREVE, AI OS PASSOS SÃO ADICIONAR O CAMPO MANUALMENTE ONDE NECESSÁRIO COMO POR EXEMPLO EM UM FORMULÁRIO, SE DESEJAR QUE O SISTEMA RECRIE UM FORMULÁRIO, CONTROLLER, SERVICE OS MESMOS DEVEM SER EXCLUÍDOS.
+ATENÇÃO, POR SEGURANÇA SE O SISTEMA ENCONTRA UM ARQUIVO EXISTENTE ELE NÃO SOBRESCREVE, 
+AI OS PASSOS SÃO ADICIONAR O CAMPO MANUALMENTE ONDE NECESSÁRIO COMO POR EXEMPLO EM UM 
+FORMULÁRIO, SE DESEJAR QUE O SISTEMA RECRIE UM FORMULÁRIO, CONTROLLER, SERVICE OS MESMOS DEVEM SER EXCLUÍDOS.
 ```
 
 O sistema no formulario de envio traz alguns campos padrões, podem ser mudados só que ainda não foram completamente testados, então podem ocorrer problemas :(
