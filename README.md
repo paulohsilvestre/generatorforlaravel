@@ -158,6 +158,14 @@ Agora acesse a URL padrão do Site http://localhost, para ver se está tudo mont
 
 Apenas acesse agora seu site e ele deve estar abrindo normalmente, basta acessar os menus existentes para que sejam listados os dados já com as funções incluir, alterar, excluir
 
+Dentro da pasta config/ existem 3 arquivos que podem ser mudados para que alterem os detalhes dos relatórios/menus/Botões
+translate.php {Traduções para os campos das tabelas e formulários}
+menu.php {Arquivo para colocar o nome do menu desejado}
+options.php {Arquivo com descrição de botões e outras variaveis do sistema}
+
+Podem ocorrer alguns erros de permissões de diretórios se usar linux/mac sempr execute o sudo para as pastas, não
+é um padrão mas pode ajudar a corrigir falahas de permissões.
+
 #### IMPLEMENTAÇÕES FUTURAS
 * INCLUSÃO DE PROTEÇÃO DAS ROTAS
 * INCLUSÃO DA TABELA DESEJADA PARA USUARIOS
