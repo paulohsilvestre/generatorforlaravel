@@ -150,3 +150,9 @@ Route::get('/', function () {
 Agora acesse a URL padrão do Site http://localhost, para ver se está tudo montado e correto.
 
 Apenas acesse agora seu site e ele deve estar abrindo normalmente, basta acessar os menus existentes para que sejam listados os dados já com as funções incluir, alterar, excluir
+
+#### IMPLEMENTAÇÕES FUTURAS
+* INCLUSÃO DE PROTEÇÃO DAS ROTAS
+* INCLUSÃO DA TABELA DESEJADA PARA USUARIOS
+* GERAÇÃO PARA UTILIZAR COM VUE.JS E ANGULAR
+* ROTAS PARA CONSUMO
