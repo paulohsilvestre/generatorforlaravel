@@ -81,6 +81,7 @@ class GenerationController extends Controller
             self::createTranslate($generation);
             self::createMigration($generation);
             self::createEntities($generation);
+            self::createFields($generation);
             self::createEloquent($generation);
             self::createController($generation);
             self::createServices($generation);
@@ -324,8 +325,8 @@ class GenerationController extends Controller
     
                         $str = "";
                         $str .= "<?php\n";
-                        $str .= self::getHead();
                         $str .= "namespace ".$generation['head']['namespace']."\\".$generation['head']['directory'].";\n\n";
+                        $str .= self::getHead();
                         $str .= "use Illuminate\Database\Eloquent\Model;\n\n";
                         
                         $str .= "class ".$nameClass." extends Model\n";
@@ -369,41 +370,64 @@ class GenerationController extends Controller
                         unset($value);
                     }
 
-
-                    $tmField = @sizeof($value->table["fields"]);
-                    if ($tmField > 0){
-                            $_str = "";
-                            $_str .= "<?php\n";
-                            $_str .= self::getHead();
-                            $_str .= "\n";
-                            $_str .= "return [\n";
-                        $cont = 1;
-                        foreach($value->table["fields"] as $field){
-                            if ($value->table["primary"] != $field->name){
-                                if ($cont == $tmField){
-                                    $_str .= "\t'".$field->name."'\n";
-                                } else {
-                                    $_str .= "\t'".$field->name."',\n";
-                                }
-                            }
-                            $cont++;
-                            unset($field);
-                        }
-                        $_str .= "];\n";
-                        $_str .= "\n";
-
-                        $file_field = fopen($dir_field . "/fields_".strtolower($nameClass). ".php", "w+");
-                        $escreve2 = fwrite($file_field, $_str);
-                        fclose($file_field);
-                        chmod($dir_field . "/fields_".strtolower($nameClass). ".php",0777);
-
-                    }
-
                 }
 
             }
 
     }
+
+    public static function createFields($generation){
+        
+        $dir_field = app_path()."/".$generation['head']['directory']."/field/";
+        if (!file_exists($dir_field)){
+            mkdir($dir_field, 0777, true);
+        }
+
+        if ($generation){
+            
+            $function = new Functions();
+            
+            foreach($generation['schema']['class'] as $value){
+                
+                $nameFile = $value->table["name"];
+                
+                $fullname = (@$generation['head']['namemodel'] == "Y") ? "Y" : "N";
+                $nameClass = $function->getNameClass($nameFile,$fullname);
+                
+                $tmField = @sizeof($value->table["fields"]);
+                if ($tmField > 0){
+                        $_str = "";
+                        $_str .= "<?php\n";
+                        $_str .= self::getHead();
+                        $_str .= "\n";
+                        $_str .= "return [\n";
+                    $cont = 1;
+                    foreach($value->table["fields"] as $field){
+                        if ($value->table["primary"] != $field->name){
+                            if ($cont == $tmField){
+                                $_str .= "\t'".$field->name."'\n";
+                            } else {
+                                $_str .= "\t'".$field->name."',\n";
+                            }
+                        }
+                        $cont++;
+                        unset($field);
+                    }
+                    $_str .= "];\n";
+                    $_str .= "\n";
+
+                    $file_field = fopen($dir_field . "fields_".strtolower($nameClass). ".php", "w+");
+                    $escreve2 = fwrite($file_field, $_str);
+                    fclose($file_field);
+                    chmod($dir_field . "fields_".strtolower($nameClass). ".php",0777);
+
+                }
+
+            }
+
+        }
+
+}
 
     public static function createMigration($generation){
 

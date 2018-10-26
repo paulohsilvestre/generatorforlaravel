@@ -111,6 +111,15 @@ FORMULÁRIO, SE DESEJAR QUE O SISTEMA RECRIE UM FORMULÁRIO, CONTROLLER, SERVICE
 
 O sistema no formulario de envio traz alguns campos padrões, podem ser mudados só que ainda não foram completamente testados, então podem ocorrer problemas :(
 
+Edite o arquivo .env para sua conexão com o banco
+
+```
+DB_HOST=127.0.0.1
+DB_DATABASE=database
+DB_USERNAME=user
+DB_PASSWORD=senha
+```
+
 ```
 NÃO IMPLEMENTADO AINDA
 DADOS DAS CONEXÕES COMO USUÁRIO E SENHA, DEVEM SER TROCADOS AINDA NO .ENV PARA EVITAR PROBLEMAS
@@ -126,7 +135,7 @@ composer dumpautoload
 
 #### Add Service Provider
 
-registre as seguintes arquivos em config.php
+registre as seguintes arquivos em config/app.php
 
 App\Providers\AppRepositoryProvider::class,
 
