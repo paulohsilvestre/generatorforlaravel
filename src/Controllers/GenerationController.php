@@ -1213,6 +1213,8 @@ class GenerationController extends Controller
             <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.js"></script>
             
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
             <script>
         
         
@@ -1306,9 +1308,49 @@ class GenerationController extends Controller
                             alert("Erro ao Carregar Formulario");
                           },
                           success: function(data) {
-                            $(this_modal).modal("show");
-                            content.html("");
-                            content.html(data);
+                            if (action == "get"){
+                                $(this_modal).modal("show");
+                                content.html("");
+                                content.html(data);
+                              } else if (action == "put"){
+                                //$(this_modal).modal("show");
+                                content.html("");
+                                content.html("Alterado com Sucesso");
+                                swal({
+                                    title: "Atualizar Página?",
+                                    text: "Processo realizado com Sucesso, atualizar página!",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true,
+                                  })
+                                  .then((willDelete) => {
+                                    if (willDelete) {
+                                      location.reload();
+                                    } 
+                                  });
+                              }else {
+                                var ret = jQuery.parseJSON(data);
+                                if (ret.error){
+                                  content.html("");
+                                  content.html(ret.message);
+                                } else {
+                                  content.html("");
+                                  content.html(ret.message);
+                                  swal({
+                                    title: "Atualizar Página?",
+                                    text: "Processo realizado com Sucesso, atualizar página!",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true,
+                                  })
+                                  .then((willDelete) => {
+                                    if (willDelete) {
+                                      location.reload();
+                                    } 
+                                  });
+                                  
+                                }
+                              }
                           }
                       });
         

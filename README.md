@@ -9,10 +9,10 @@ Se desejarem ajudar a melhorar o projeto, estou a disposição, quero deixar uma
 Crie um projeto Laravel
 
 ``` bash
-composer create-project --prefer-dist laravel/laravel blog
+composer create-project --prefer-dist laravel/laravel nomeprojeto
 
 ```
-Importe o framework para seu projeto instalando pelo composer
+Acesso o projeto criado nomeprojeto e importe o framework para seu projeto instalando pelo composer
 
 ``` bash
 $ composer require paulohsilvestre/generatorforlaravel:~1.0
