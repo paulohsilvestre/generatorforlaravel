@@ -77,27 +77,54 @@ class GenerationController extends Controller
             $generation['head'] = $data;
             $generation['schema'] = $schema;
 
-            self::createIndex($generation);
-            self::createTranslate($generation);
-            self::createMigration($generation);
-            self::createEntities($generation);
-            self::createFields($generation);
-            self::createEloquent($generation);
-            self::createController($generation);
-            self::createServices($generation);
-            self::createRepositories($generation);
-            self::createValidators($generation);
-            self::createRouter($generation);
-            self::createHtml($generation);
-            self::createProvider($generation);
-            self::createMenu($generation);
-            self::createTranslateMenu($generation);
-
-            
+            if (self::validationTables($generation)){
+                self::createIndex($generation);
+                self::createTranslate($generation);
+                self::createMigration($generation);
+                self::createEntities($generation);
+                self::createFields($generation);
+                self::createEloquent($generation);
+                self::createController($generation);
+                self::createServices($generation);
+                self::createRepositories($generation);
+                self::createValidators($generation);
+                self::createRouter($generation);
+                self::createHtml($generation);
+                self::createProvider($generation);
+                self::createMenu($generation);
+                self::createTranslateMenu($generation);
+            }
         } else {
             return \Response::json('DATA INVALID!!!', 500);
         }
 
+    }
+
+    public static function validationTables($generation){
+        if ($generation){ 
+            $erro = array();
+            foreach($generation['schema']['class'] as $chave => $value){
+                $name = $value->table['name'];
+                $contains = strpos($name,"_");
+                if ($contains > -1){
+                    $erro['name'][trim($name)] = "Tabela contém _(underline) no nome, causará problema no processamento";
+                }
+                $contains = strpos($name," ");
+                if ($contains > -1){
+                    $erro['espacos'][trim($name)] = "Tabela contém espaço no nome, causará problema no processamento";
+                }
+                $contains = strlen($name);
+                if ($contains > 30){
+                    $erro['tamanho'][trim($name)] = "Tamanho da tabela ultrapassa tamanho máximo permitido por alguns Banco de Dados 30 caracteres";
+                }
+            }
+            if (sizeof($erro) > 0){
+                dd(json_encode($erro));
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static function createTranslate($generation){
@@ -351,7 +378,7 @@ class GenerationController extends Controller
                                 
                                 $str .= "\t\tpublic function ".strtolower($chave->referencetable)."()\n";
                                 $str .= "\t\t{\n";
-                                $str .= "\t\t\treturn \$this->hasOne('".$function->getNameClass($chave->referencetable)."');\n";
+                                $str .= "\t\t\treturn \$this->hasOne('".$generation['head']['namespace']."\\".$generation['head']['directory'].'\\'.$function->getNameClass($chave->referencetable)."','".$chave->referencefield."','".$chave->foreign."');\n";
                                 $str .= "\t\t}\n";
                                 $str .= "\n";
                                 
@@ -1017,6 +1044,8 @@ class GenerationController extends Controller
                   */html{position:relative;min-height:100%}body{height:100%}#wrapper{display:-webkit-box;display:-ms-flexbox;display:flex}#wrapper #content-wrapper{overflow-x:hidden;width:100%;padding-top:1rem;padding-bottom:80px}body.fixed-nav #content-wrapper{margin-top:56px;padding-left:90px}body.fixed-nav.sidebar-toggled #content-wrapper{padding-left:0}@media (min-width:768px){body.fixed-nav #content-wrapper{padding-left:225px}body.fixed-nav.sidebar-toggled #content-wrapper{padding-left:90px}}.scroll-to-top{position:fixed;right:15px;bottom:15px;display:none;width:50px;height:50px;text-align:center;color:#fff;background:rgba(52,58,64,.5);line-height:46px}.scroll-to-top:focus,.scroll-to-top:hover{color:#fff}.scroll-to-top:hover{background:#343a40}.scroll-to-top i{font-weight:800}.smaller{font-size:.7rem}.o-hidden{overflow:hidden!important}.z-0{z-index:0}.z-1{z-index:1}.navbar-nav .form-inline .input-group{width:100%}.navbar-nav .nav-item.active .nav-link{color:#fff}.navbar-nav .nav-item.dropdown .dropdown-toggle::after{width:1rem;text-align:center;float:right;vertical-align:0;border:0;font-weight:900;content:"\f105";font-family:"Font Awesome 5 Free"}.navbar-nav .nav-item.dropdown.show .dropdown-toggle::after{content:"\f107"}.navbar-nav .nav-item.dropdown.no-arrow .dropdown-toggle::after{display:none}.navbar-nav .nav-item .nav-link:focus{outline:0}.navbar-nav .nav-item .nav-link .badge{position:absolute;margin-left:.75rem;top:.3rem;font-weight:400;font-size:.5rem}@media (min-width:768px){.navbar-nav .form-inline .input-group{width:auto}}.sidebar{width:90px!important;background-color:#212529;min-height:calc(100vh - 56px)}.sidebar .nav-item:last-child{margin-bottom:1rem}.sidebar .nav-item .nav-link{text-align:center;padding:.75rem 1rem;width:90px}.sidebar .nav-item .nav-link span{font-size:.65rem;display:block}.sidebar .nav-item .dropdown-menu{position:absolute!important;-webkit-transform:none!important;transform:none!important;left:calc(90px + .5rem)!important;margin:0}.sidebar .nav-item .dropdown-menu.dropup{bottom:0;top:auto!important}.sidebar .nav-item.dropdown .dropdown-toggle::after{display:none}.sidebar .nav-item .nav-link{color:rgba(255,255,255,.5)}.sidebar .nav-item .nav-link:active,.sidebar .nav-item .nav-link:focus,.sidebar .nav-item .nav-link:hover{color:rgba(255,255,255,.75)}.sidebar.toggled{width:0!important;overflow:hidden}@media (min-width:768px){.sidebar{width:225px!important}.sidebar .nav-item .nav-link{display:block;width:100%;text-align:left;padding:1rem;width:225px}.sidebar .nav-item .nav-link span{font-size:1rem;display:inline}.sidebar .nav-item .dropdown-menu{position:static!important;margin:0 1rem;top:0}.sidebar .nav-item.dropdown .dropdown-toggle::after{display:block}.sidebar.toggled{overflow:visible;width:90px!important}.sidebar.toggled .nav-item:last-child{margin-bottom:1rem}.sidebar.toggled .nav-item .nav-link{text-align:center;padding:.75rem 1rem;width:90px}.sidebar.toggled .nav-item .nav-link span{font-size:.65rem;display:block}.sidebar.toggled .nav-item .dropdown-menu{position:absolute!important;-webkit-transform:none!important;transform:none!important;left:calc(90px + .5rem)!important;margin:0}.sidebar.toggled .nav-item .dropdown-menu.dropup{bottom:0;top:auto!important}.sidebar.toggled .nav-item.dropdown .dropdown-toggle::after{display:none}}.sidebar.fixed-top{top:56px;height:calc(100vh - 56px);overflow-y:auto}.card-body-icon{position:absolute;z-index:0;top:-1.25rem;right:-1rem;opacity:.4;font-size:5rem;-webkit-transform:rotate(15deg);transform:rotate(15deg)}@media (min-width:576px){.card-columns{-webkit-column-count:1;column-count:1}}@media (min-width:768px){.card-columns{-webkit-column-count:2;column-count:2}}@media (min-width:1200px){.card-columns{-webkit-column-count:2;column-count:2}}:root{--input-padding-x:0.75rem;--input-padding-y:0.75rem}.card-login{max-width:25rem}.card-register{max-width:40rem}.form-label-group{position:relative}.form-label-group>input,.form-label-group>label{padding:var(--input-padding-y) var(--input-padding-x);height:auto}.form-label-group>label{position:absolute;top:0;left:0;display:block;width:100%;margin-bottom:0;line-height:1.5;color:#495057;border:1px solid transparent;border-radius:.25rem;-webkit-transition:all .1s ease-in-out;transition:all .1s ease-in-out}.form-label-group input::-webkit-input-placeholder{color:transparent}.form-label-group input:-ms-input-placeholder{color:transparent}.form-label-group input::-ms-input-placeholder{color:transparent}.form-label-group input::placeholder{color:transparent}.form-label-group input:not(:placeholder-shown){padding-top:calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));padding-bottom:calc(var(--input-padding-y)/ 3)}.form-label-group input:not(:placeholder-shown)~label{padding-top:calc(var(--input-padding-y)/ 3);padding-bottom:calc(var(--input-padding-y)/ 3);font-size:12px;color:#777}footer.sticky-footer{display:-webkit-box;display:-ms-flexbox;display:flex;position:absolute;right:0;bottom:0;width:calc(100% - 90px);height:80px;background-color:#e9ecef}footer.sticky-footer .copyright{line-height:1;font-size:.8rem}@media (min-width:768px){footer.sticky-footer{width:calc(100% - 225px)}}body.sidebar-toggled footer.sticky-footer{width:100%}@media (min-width:768px){body.sidebar-toggled footer.sticky-footer{width:calc(100% - 90px)}}
             </style>
         
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
           </head>
         
           <body id="page-top">
@@ -1215,6 +1244,8 @@ class GenerationController extends Controller
             
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
             <script>
         
         
@@ -1299,6 +1330,7 @@ class GenerationController extends Controller
                           beforeSend: function(){
                             content.html("");
                             content.html(loader);
+                            setSelect();
                           },
                           complete: function(){
                             loader.remove();
@@ -1358,6 +1390,18 @@ class GenerationController extends Controller
         
                 });
         
+            /*
+            *  EXECUTA O LOAD DO SELECT2 APÓS CARREGAR O FORM VIA AJAX
+            */
+            function setSelect(){
+                $("#ModalForm .select2").each(function() {  
+                    var $p = $(this).parent(); 
+                    $(this).select2({  
+                    dropdownParent: $p  
+                    });  
+                });
+            }       
+
             /**
             * MONTA A URL PARA RETORNAR APÓS O CLIQUE DO BOTÃO EM VÁRIAS TELAS, REMOVE OS CARACTERES NO INICIO E NO FIM
             * CRIADO ESPECIFICAMENTE PARA REMOVER A "/" DO INICIO E FINAL MONTAR A URL CORRETA
@@ -1991,6 +2035,7 @@ class GenerationController extends Controller
                             $file .= '</tr>
                             </tfoot>
                             <tbody>';
+
                             $file .= '@foreach($'.strtolower($nameFile).' as $p)';
                             $file .= "\n";
                             $file .= '<tr>';
@@ -1998,7 +2043,23 @@ class GenerationController extends Controller
                             if (sizeof($value->table["fields"]) > 0){
                                 foreach($value->table["fields"] as $field){
                                     if ($field->attributes->report == "Y"){
-                                        $file .= '<td>{{$p->'.$field->name.'}}</td>';
+
+                                        $desc_field = '<td>{{$p->'.$field->name.'}}</td>';
+
+                                        if (@sizeof($value->table["foreign"]) > 0){
+                                            foreach($value->table["foreign"] as $fk){
+                                                if ($fk->foreign == $field->name){
+                                                    $default_name = Migration::getDefault($fk->referencetable, $generation['schema']['class']);
+                                                    if ($default_name) {
+                                                        $desc_field = '<td>{{$p->'.$fk->referencetable.'->'.$default_name.'}}</td>';
+                                                    } else {
+                                                        $desc_field = '<td>{{$p->'.$fk->referencetable.'->id}}</td>';
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        $file .= $desc_field;
                                         $file .= "\n";
                                     }
                                     unset($field);
@@ -2257,7 +2318,7 @@ class GenerationController extends Controller
                     if (!file_exists($directory."".$file_name)){
 
                     $file = "";
-                    $file .= '<div class="modal-header">\n';
+                    $file .= '<div class="modal-header">';
                     $file .= '<h4 class="modal-title">{{Config::get(\'options.titleEdit\')}}</h4>';
                     $file .= '<button class="close float-right" aria-label="Close" data-dismiss="modal" type="button">';
                     $file .= '<span aria-hidden="true">×</span>';
@@ -2299,7 +2360,7 @@ class GenerationController extends Controller
 
                             if ($fk){
 
-                                $file .= '<div class="form-group">';
+                                $file .= '<div class="form-group row">';
                                 $file .= "\n";
                                 $file .= '    <label class="col-sm-3 col-form-label" for="'.$field->name.'">'.$function->getStringFirstUpper($fk->referencetable).'</label>';
                                 $file .= "\n";
@@ -2337,7 +2398,7 @@ class GenerationController extends Controller
 
                                     if ($field->name != $value->table['primary']){
                                         $file .= '';
-                                        $file .= '<div class="form-group">';
+                                        $file .= '<div class="form-group row">';
                                         $file .= "\n";
                                         $file .= '<label class="col-sm-3 col-form-label" for="'.$field->name.'">'.$function->getStringFirstUpper($field->name).'</label>';
                                         $file .= "\n";

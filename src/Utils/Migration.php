@@ -280,7 +280,8 @@ class Migration {
                     if ($value->table["name"] == strtolower($table)){
                         if (sizeof($value->table["fields"]) > 0){
                             foreach($value->table["fields"] as $field){
-                                if (@$field->default == "Y"){
+
+                                if ((@$field->attributes->default == "Y") || (@$field->attributes->default == "S")){
                                     $achou = true;
                                     $name = $field->name;
                                     break;
@@ -346,6 +347,7 @@ class Migration {
             $type->max = Functions::getValuesCaracter($comment, "<max>", "</max>");
             $type->cols = Functions::getValuesCaracter($comment, "<cols>", "</cols>");
             $type->rows = Functions::getValuesCaracter($comment, "<rows>", "</rows>");
+            $type->default = Functions::getValuesCaracter($comment, "<default>", "</default>");
         }
         return $type;
     }

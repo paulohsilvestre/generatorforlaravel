@@ -405,7 +405,7 @@ class Functions {
 
             $fld_type = self::getTypeField($field);
 
-            $place = (@$field->attributes->placeholder != "") ? @$field->attributes->placeholder : "\Config::get(\"translate.".$table.".".$field->name."\")";
+            $place = (@$field->attributes->placeholder != "") ? @$field->attributes->placeholder : "{{\Config::get(\"translate.".$table.".".$field->name."\")}}";
 
             $str  = "<input name='".$field->name."'  
                            id='".$field->name."'  
@@ -439,13 +439,18 @@ class Functions {
                 />";
         } else if ($type == "select") {
             $str = "<select name='".$field->name."' id='".$field->name."' ".$required." 
-            class='".$class." form-control-plaintext'>";
+            class='".$class." select2 form-control-plaintext'>";
             $exp = explode(",",$field->attributes->options);
             if (@sizeof($exp) > 0){
                 foreach($exp as $vl){
                     $_exp = explode("|",$vl);
                     if (sizeof($_exp) > 1){
-                        $str .= "<option value='".$_exp[0]."'>".$_exp[1]."</option>";
+                        if ($vl_recovery != ""){
+                            $str .= "<option value='".trim($_exp[0])."'  @if(\$".$table."->".$field->name." == \"".trim($_exp[0])."\") selected=\"selected\" @endif >".$_exp[1]."</option>";
+                        } else {
+                            $str .= "<option value='".trim($_exp[0])."'>".$_exp[1]."</option>";
+                        }
+                        
                     }
                     unset($vl);
                 }
@@ -467,7 +472,10 @@ class Functions {
             $str .= " id='".$field->name."'";
             $str .= " class='".$class." form-control-plaintext'";
             $str .= " placeholder='{{Config::get(\"translate.".$table.".".$field->name."\")}}' ";
+            $str .= " maxlength='".$field->attributes->max."'";
+            $str .= " minlength='".@$field->attributes->min."'"; 
             $str .= $required;
+            
             if ($vl_recovery){
                 $str .= " value='".$vl_recovery."' ";
             }
