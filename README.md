@@ -141,12 +141,13 @@ composer dumpautoload
 
 #### Add Service Provider
 
-registre as seguintes arquivos em config/app.php
+registre a seguinte Provider em arquivos em config/app.php
  ```
 App\Providers\AppRepositoryProvider::class,
 ```
 
 Agora adicione ao seu arquivo de rotas 
+
 ```
 Route::get('/', function () {
     return view('layout.index');
