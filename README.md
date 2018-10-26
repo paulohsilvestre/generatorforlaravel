@@ -29,7 +29,7 @@ no arquivo config/app.php registre a classe GeneratorForLaravel
 Paulohsilvestre\GeneratorForLaravel\GenerationServiceProvider::class
 ```
 
-Localize me seu projeto o arquivo de rotas do Laravel provavelmente está em routes/web.php
+Localize em seu projeto o arquivo de rotas do Laravel provavelmente está em routes/web.php
 adicione onde você deseja que as rotas sejam incluídas a seguinte linha 
 
 ```
