@@ -47,22 +47,22 @@
                             <input type="text" required name="directory" id="directory" placeholder="Salvar modelo no Diretório Ex: Entities" value="Entities">
                         </div>  
                         <div data-field-span="1">
-                            <label>Nome Arquivo Rotas em routes/</label>                     
-                            <input type="text" required name="fileroutes" id="fileroutes" placeholder="Nome do Arquivo de Rotas Ex: generated" value="web.php">
+                            <label>Nome Arquivo Rotas em routes/ não utilize web.php</label>                     
+                            <input type="text" required name="fileroutes" id="fileroutes" placeholder="Nome do Arquivo de Rotas Ex: generated" value="generated.php">
                         </div> 
                         
                     </div>            
                 </fieldset> 
                 <fieldset>
-                    <div data-row-span="2">
+                    <div data-row-span="1">
                         <div data-field-span="1">
                             <label>Criar nome dos model como nome das tabelas</label>                     
                             <input type="checkbox" name="namemodel" id="namemodel" value="Y" />
                         </div>
-                        <div data-field-span="1">
+                        <!-- <div data-field-span="1">
                             <label>Formulário Edição/Inclusão único</label>                     
                             <input type="checkbox" name="form" id="form" value="Y" />
-                        </div>
+                        </div> -->
                     </div>            
                 </fieldset> 
                 <fieldset>
@@ -71,7 +71,6 @@
                             <label>Criar Route usando Resource</label>                     
                             <input type="checkbox" name="resource" id="resource" value="Y" />
                             Se marcado a rota ficará Route::resource() senão será criado get/put/delete/post
-
                         </div>   
                     </div>            
                 </fieldset> 
@@ -91,18 +90,18 @@
                             </div>       
                     </fieldset> 
                     <fieldset>
-                        <div data-row-span="2">
-                            <div data-field-span="1">
+                        <div data-row-span="1">
+                            <!-- <div data-field-span="1">
                                 <label>Tabela de Usuários</label> 
                                 <input type="text" name="users" id="users" value="User" />
-                            </div>
+                            </div> -->
                             <div data-field-span="1">
-                                <label>Criar Arquivo para Tradução</label> 
-                                <input type="checkbox" name="translate" id="translate" value="Y"> &nbsp;Criar arquivo de Tradução em config/translate.php
+                                <label>Arquivo para Tradução</label> 
+                                <input type="checkbox" checked name="translate" id="translate" value="Y"> &nbsp;Será Criado arquivo de Tradução em config/translate.php
                             </div>       
                     </fieldset> 
                     <fieldset>
-                        <div data-row-span="3">
+                        <div data-row-span="2">
                             <div data-field-span="1">
                                 <label>Conexão Padrão</label> 
                                 <input type="text" name="connection" id="connection" value="mysql" placeholder="Nome da Conexão padrão" />
@@ -111,12 +110,12 @@
                                 <label>Incluir Conexão nos Models/Migrations</label> 
                                 <input type="checkbox" name="addcon" id="addcon" value="Y"> &nbsp;SIM
                             </div>
-                            <div data-field-span="1">
+                            <!-- <div data-field-span="1">
                                 <label>Definir protected para Datas no modelo</label> 
                                 <input type="checkbox" name="adddate" id="adddate" value="Y"> &nbsp;destaca campos na váriavel date no modelo
-                            </div>  
+                            </div>   -->
                     </fieldset> 
-                    <fieldset>
+                    <!-- <fieldset>
                         <div data-row-span="3">
                             <div data-field-span="1">
                                 <label>Host Conexão, alterado no .env</label> 
@@ -130,7 +129,7 @@
                                 <label>Senha Banco, alterado no .env</label> 
                                 <input type="text" name="dbsenha" id="dbsenha" value="" placeholder="Senha do Banco" />
                             </div>
-                    </fieldset> 
+                    </fieldset>  -->
                     <fieldset>
                         <div data-row-span="1">
                             <div data-field-span="1">
