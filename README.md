@@ -6,6 +6,8 @@
 
 Se desejarem ajudar a melhorar o projeto, estou a disposição, quero deixar uma ferramenta mais completa, gerando para VueJs/Angular etc.
 
+Ao final do documento tem um link pro Video de demonstração no youtube.
+
 Crie um projeto Laravel
 
 ``` bash
@@ -165,6 +167,12 @@ options.php {Arquivo com descrição de botões e outras variaveis do sistema}
 
 Podem ocorrer alguns erros de permissões de diretórios se usar linux/mac sempr execute o sudo para as pastas, não
 é um padrão mas pode ajudar a corrigir falahas de permissões.
+
+### VIDEO YOUTUBE
+https://www.youtube.com/watch?v=b_l1Qm8uVrQ&feature=youtu.be
+
+Não reparem que sempre da problema em demonstração.
+
 
 #### IMPLEMENTAÇÕES FUTURAS
 * INCLUSÃO DE PROTEÇÃO DAS ROTAS
